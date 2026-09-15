@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>XevraPack Yetkili Başvuru</title>
+
+<style>
+body{
+    background:#0b0b0b;
+    color:white;
+    font-family:Arial;
+}
+
+.container{
+    width:90%;
+    max-width:600px;
+    margin:50px auto;
+    background:#181818;
+    padding:30px;
+    border-radius:15px;
+}
+
+h1{
+    text-align:center;
+    color:red;
+}
+
+input, textarea, select{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    background:#222;
+    color:white;
+    border:0;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    background:red;
+    color:white;
+    border:0;
+    border-radius:10px;
+    cursor:pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>⚡ XevraPack</h1>
+<h2>Yetkili Başvuru</h2>
+
+<input id="isim" placeholder="Ad Soyad">
+
+<input id="discord" placeholder="Discord Adın">
+
+<input id="yas" placeholder="Yaş">
+
+<select id="yetki">
+<option>Yetki Seç</option>
+<option>Helper</option>
+<option>Moderator</option>
+<option>Staff</option>
+<option>Admin</option>
+</select>
+
+<textarea id="neden" placeholder="Neden yetkili olmak istiyorsun?"></textarea>
+
+<button onclick="basvur()">Başvuruyu Gönder</button>
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import { getFirestore, collection, addDoc } 
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+apiKey:"BURAYA_API_KEY",
+
+authDomain:"BURAYA_AUTHDOMAIN",
+
+projectId:"BURAYA_PROJECT_ID",
+
+storageBucket:"BURAYA_STORAGE",
+
+messagingSenderId:"BURAYA_ID",
+
+appId:"BURAYA_APPID"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+window.basvur = async()=>{
+
+await addDoc(collection(db,"basvurular"),{
+
+isim:isim.value,
+discord:discord.value,
+yas:yas.value,
+yetki:yetki.value,
+neden:neden.value,
+durum:"Beklemede"
+
+});
+
+
+alert("Başvurun gönderildi!");
+
+}
+
+</script>
+
+
+</body>
+</html>
