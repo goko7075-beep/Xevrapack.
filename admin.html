@@ -1,206 +1,46 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html>
 <head>
-
-<meta charset="UTF-8">
-<title>XevraPack Admin Panel</title>
-
+<title>XevraPack Admin</title>
 <style>
-
 body{
 background:#0b0b0b;
 color:white;
 font-family:Arial;
+text-align:center;
 }
-
-.panel{
-width:90%;
-max-width:700px;
-margin:40px auto;
+.box{
+margin:50px auto;
+width:500px;
 background:#181818;
 padding:25px;
 border-radius:15px;
 }
-
-h1{
-text-align:center;
-color:red;
-}
-
-.card{
-background:#222;
-padding:15px;
-margin:15px 0;
-border-radius:10px;
-}
-
 button{
 padding:10px;
+margin:5px;
 border:0;
 border-radius:8px;
 cursor:pointer;
-margin:5px;
 }
-
-.onay{
-background:green;
-color:white;
-}
-
-.red{
-background:red;
-color:white;
-}
-
+.ok{background:green;color:white;}
+.no{background:red;color:white;}
 </style>
-
 </head>
-
 
 <body>
 
+<div class="box">
+<h1>🛡️ XevraPack Admin Panel</h1>
 
-<div class="panel">
+<h3>Başvurular</h3>
 
-<h1>🛡️ XevraPack Admin</h1>
+<p>Firebase bağlandıktan sonra başvurular burada görünecek.</p>
 
-<div id="basvurular">
-Başvurular yükleniyor...
-</div>
-
-</div>
-
-
-
-<script type="module">
-
-
-import { initializeApp } 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-
-import { 
-getFirestore,
-collection,
-getDocs,
-updateDoc,
-doc
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-
-const firebaseConfig = {
-
-apiKey:"BURAYA_API_KEY",
-
-authDomain:"BURAYA_AUTHDOMAIN",
-
-projectId:"BURAYA_PROJECT_ID",
-
-storageBucket:"BURAYA_STORAGE",
-
-messagingSenderId:"BURAYA_ID",
-
-appId:"BURAYA_APPID"
-
-};
-
-
-
-const app = initializeApp(firebaseConfig);
-
-const db = getFirestore(app);
-
-
-
-async function yukle(){
-
-let alan=document.getElementById("basvurular");
-
-alan.innerHTML="";
-
-
-let veri=await getDocs(collection(db,"basvurular"));
-
-
-veri.forEach((x)=>{
-
-
-let d=x.data();
-
-
-alan.innerHTML += `
-
-<div class="card">
-
-<h3>${d.discord}</h3>
-
-İsim: ${d.isim}<br>
-Yaş: ${d.yas}<br>
-Yetki: ${d.yetki}<br>
-
-<p>${d.neden}</p>
-
-Durum:
-<b>${d.durum}</b>
-
-<br>
-
-<button class="onay" onclick="onay('${x.id}')">
-✅ Onayla
-</button>
-
-<button class="red" onclick="red('${x.id}')">
-❌ Reddet
-</button>
-
+<button class="ok">✅ Onayla</button>
+<button class="no">❌ Reddet</button>
 
 </div>
-
-`;
-
-
-});
-
-
-}
-
-
-
-window.onay=async(id)=>{
-
-await updateDoc(doc(db,"basvurular",id),{
-
-durum:"Onaylandı"
-
-});
-
-yukle();
-
-}
-
-
-
-window.red=async(id)=>{
-
-await updateDoc(doc(db,"basvurular",id),{
-
-durum:"Reddedildi"
-
-});
-
-yukle();
-
-}
-
-
-
-yukle();
-
-
-</script>
-
 
 </body>
 </html>
